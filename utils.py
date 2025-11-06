@@ -3,9 +3,9 @@
 
 Title:             Modified Recursive QAOA for Exact Max-Cut Solutions on Bipartite Graphs: Closing the Gap Beyond QAOA Limit
 Subtitle:          Graph utilities and manager for RQAOA (Max-Cut / Ising)
-Repository:        [GitHub URL]
+Repository:        https://github.com/vijeycreative/Modified_RQAOA
 Version:           1.0.0
-Date:              [YYYY-MM-DD]
+Date:              06/11/2025
 
 Authors:           V Vijendran
 Affiliations:      Centre for Quantum Technologies, National University of Singapore & A*STAR Quantum Innovation Centre
@@ -31,7 +31,7 @@ This file contains:
 
 License
 -------
-[Choose a license, e.g., MIT / Apache-2.0 / BSD-3-Clause]
+MIT License © 2025 V. Vijendran
 
 ==============================================================================
 """

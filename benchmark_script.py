@@ -3,9 +3,9 @@
 
 Title:             Modified Recursive QAOA for Exact Max-Cut Solutions on Bipartite Graphs: Closing the Gap Beyond QAOA Limit
 Subtitle:          Batch runner for QAOA / RQAOA experiments (parallel)
-Repository:        [GitHub URL]
+Repository:        https://github.com/vijeycreative/Modified_RQAOA
 Version:           1.0.0
-Date:              [YYYY-MM-DD]
+Date:              06/11/2025
 
 Authors:           V Vijendran
 Affiliations:      Centre for Quantum Technologies, National University of Singapore & A*STAR Quantum Innovation Centre
@@ -55,7 +55,7 @@ Set SIZES, P_INDICES, GRAPHS_DIR, OUT_DIR, and N_CORES as needed.
 
 License
 -------
-[Choose a license, e.g., MIT / Apache-2.0 / BSD-3-Clause]
+MIT License © 2025 V. Vijendran
 
 ==============================================================================
 """
@@ -164,11 +164,30 @@ def run_one(num_vertices: int, p_idx: int, i: int) -> str:
     # --------------------------
     # 1D brute force over γ only
     # --------------------------
-    opt_gamma1 = brute(lambda g: qaoa_beta_pi8(g[0]), ranges=(range_gamma,), Ns=20)
-    qaoa_cost = qaoa_beta_pi8(opt_gamma1[0])
+    opt_gamma1 = brute(lambda g: qaoa_beta_pi8(g[0]), ranges=(range_gamma,), Ns=20, finish=False)
 
-    opt_gamma2 = brute(lambda g: qaoa_beta_pi8(g[0]), ranges=(range_gamma_opt,), Ns=20)
-    opt_qaoa_cost = qaoa_beta_pi8(opt_gamma2[0])
+    res1 = minimize(
+            lambda g: qaoa_beta_pi8(g[0]),
+            x0=opt_gamma1,
+            method="L-BFGS-B",
+            bounds=[range_gamma],
+            options={"maxiter": 20000, "ftol": 1e-12}
+        )
+    opt_gamma11 = res1.x
+    qaoa_cost = qaoa_beta_pi8(opt_gamma11[0])
+
+    opt_gamma2 = brute(lambda g: qaoa_beta_pi8(g[0]), ranges=(range_gamma_opt,), Ns=20, finish=False)
+
+    res2 = minimize(
+            lambda g: qaoa_beta_pi8(g[0]),
+            x0=opt_gamma2,
+            method="L-BFGS-B",
+            bounds=[range_gamma_opt],
+            options={"maxiter": 20000, "ftol": 1e-12}
+        )
+    opt_gamma21 = res2.x
+
+    opt_qaoa_cost = qaoa_beta_pi8(opt_gamma21[0])
 
     # --------------------------
     # RQAOA (with / without opt)
